@@ -600,4 +600,101 @@ alex@/tmp/binary_trees$
 ```
 
 
+10. Depth mandatory - [10-binary_tree_depth.c](10-binary_tree_depth.c/)
 
+Write a function that measures the depth of a node in a binary tree
+
+- Prototype: size_t binary_tree_depth(const binary_tree_t *tree);
+- Where tree is a pointer to the node to measure the depth
+- If tree is NULL, your function must return 0
+```
+alex@/tmp/binary_trees$ cat 10-main.c 
+#include <stdlib.h>
+#include <stdio.h>
+#include "binary_trees.h"
+
+/**
+ * main - Entry point
+ *
+ * Return: Always 0 (Success)
+ */
+int main(void)
+{
+    binary_tree_t *root;
+    size_t depth;
+
+    root = binary_tree_node(NULL, 98);
+    root->left = binary_tree_node(root, 12);
+    root->right = binary_tree_node(root, 402);
+    binary_tree_insert_right(root->left, 54);
+    binary_tree_insert_right(root, 128);
+    binary_tree_print(root);
+
+    depth = binary_tree_depth(root);
+    printf("Depth of %d: %lu\n", root->n, depth);
+    depth = binary_tree_depth(root->right);
+    printf("Depth of %d: %lu\n", root->right->n, depth);
+    depth = binary_tree_depth(root->left->right);
+    printf("Depth of %d: %lu\n", root->left->right->n, depth);
+    return (0);
+}
+alex@/tmp/binary_trees$ gcc -Wall -Wextra -Werror -pedantic binary_tree_print.c 10-binary_tree_depth.c 10-main.c 0-binary_tree_node.c 2-binary_tree_insert_right.c -o 10-depth
+alex@/tmp/binary_trees$ ./10-depth 
+  .-------(098)--.
+(012)--.       (128)--.
+     (054)          (402)
+Depth of 98: 0
+Depth of 128: 1
+Depth of 54: 2
+alex@/tmp/binary_trees$
+```
+
+
+11. Size mandatory - [11-binary_tree_size.c](11-binary_tree_size.c/)
+
+Write a function that measures the size of a binary tree
+
+- Prototype: size_t binary_tree_size(const binary_tree_t *tree);
+- Where tree is a pointer to the root node of the tree to measure the size
+- If tree is NULL, the function must return 0
+```
+alex@/tmp/binary_trees$ cat 11-main.c 
+#include <stdlib.h>
+#include <stdio.h>
+#include "binary_trees.h"
+
+/**
+ * main - Entry point
+ *
+ * Return: Always 0 (Success)
+ */
+int main(void)
+{
+    binary_tree_t *root;
+    size_t size;
+
+    root = binary_tree_node(NULL, 98);
+    root->left = binary_tree_node(root, 12);
+    root->right = binary_tree_node(root, 402);
+    binary_tree_insert_right(root->left, 54);
+    binary_tree_insert_right(root, 128);
+    binary_tree_print(root);
+
+    size = binary_tree_size(root);
+    printf("Size of %d: %lu\n", root->n, size);
+    size = binary_tree_size(root->right);
+    printf("Size of %d: %lu\n", root->right->n, size);
+    size = binary_tree_size(root->left->right);
+    printf("Size of %d: %lu\n", root->left->right->n, size);
+    return (0);
+}
+alex@/tmp/binary_trees$ gcc -Wall -Wextra -Werror -pedantic binary_tree_print.c 11-binary_tree_size.c 11-main.c 0-binary_tree_node.c 2-binary_tree_insert_right.c -o 11-size
+alex@/tmp/binary_trees$ ./11-size 
+  .-------(098)--.
+(012)--.       (128)--.
+     (054)          (402)
+Size of 98: 5
+Size of 128: 2
+Size of 54: 1
+alex@/tmp/binary_trees$
+```
