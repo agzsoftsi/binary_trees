@@ -800,3 +800,177 @@ Nodes in 128: 1
 Nodes in 54: 0
 alex@/tmp/binary_trees$
 ```
+
+
+14. Balance factor mandatory - [14-binary_tree_balance.c](14-binary_tree_balance.c/)
+
+Write a function that measures the balance factor of a binary tree
+
+- Prototype: int binary_tree_balance(const binary_tree_t *tree);
+- Where tree is a pointer to the root node of the tree to measure the balance factor
+- If tree is NULL, return 0
+```
+alex@/tmp/binary_trees$ cat 14-main.c 
+#include <stdlib.h>
+#include <stdio.h>
+#include "binary_trees.h"
+
+/**
+ * main - Entry point
+ *
+ * Return: Always 0 (Success)
+ */
+int main(void)
+{
+    binary_tree_t *root;
+    int balance;
+
+    root = binary_tree_node(NULL, 98);
+    root->left = binary_tree_node(root, 12);
+    root->right = binary_tree_node(root, 402);
+    binary_tree_insert_right(root->left, 54);
+    binary_tree_insert_right(root, 128);
+    binary_tree_insert_left(root, 45);
+    binary_tree_insert_right(root->left, 50);
+    binary_tree_insert_left(root->left->left, 10);
+    binary_tree_insert_left(root->left->left->left, 8);
+    binary_tree_print(root);
+
+    balance = binary_tree_balance(root);
+    printf("Balance of %d: %+d\n", root->n, balance);
+    balance = binary_tree_balance(root->right);
+    printf("Balance of %d: %+d\n", root->right->n, balance);
+    balance = binary_tree_balance(root->left->left->right);
+    printf("Balance of %d: %+d\n", root->left->left->right->n, balance);
+    return (0);
+}
+alex@/tmp/binary_trees$ gcc -Wall -Wextra -Werror -pedantic binary_tree_print.c 14-binary_tree_balance.c 14-main.c 0-binary_tree_node.c 2-binary_tree_insert_right.c 1-binary_tree_insert_left.c -o 14-balance
+alex@/tmp/binary_trees$ ./14-balance
+                      .-------(098)--.
+            .-------(045)--.       (128)--.
+       .--(012)--.       (050)          (402)
+  .--(010)     (054)
+(008)
+Balance of 98: +2
+Balance of 128: -1
+Balance of 54: +0
+alex@/tmp/binary_trees$
+```
+
+15. Is full mandatory - [15-binary_tree_is_full.c](15-binary_tree_is_full.c/)
+
+Write a function that checks if a binary tree is full
+
+- Prototype: int binary_tree_is_full(const binary_tree_t *tree);
+- Where tree is a pointer to the root node of the tree to check
+- If tree is NULL, your function must return 0
+```
+alex@/tmp/binary_trees$ cat 15-main.c
+#include <stdlib.h>
+#include <stdio.h>
+#include "binary_trees.h"
+
+/**
+ * main - Entry point
+ *
+ * Return: Always 0 (Success)
+ */
+int main(void)
+{
+    binary_tree_t *root;
+    int full;
+
+    root = binary_tree_node(NULL, 98);
+    root->left = binary_tree_node(root, 12);
+    root->right = binary_tree_node(root, 402);
+    binary_tree_insert_right(root->left, 54);
+    binary_tree_insert_right(root, 128);
+    root->left->left = binary_tree_node(root->left, 10);
+    binary_tree_print(root);
+
+    full = binary_tree_is_full(root);
+    printf("Is %d full: %d\n", root->n, full);
+    full = binary_tree_is_full(root->left);
+    printf("Is %d full: %d\n", root->left->n, full);
+    full = binary_tree_is_full(root->right);
+    printf("Is %d full: %d\n", root->right->n, full);
+    return (0);
+}
+alex@/tmp/binary_trees$ gcc -Wall -Wextra -Werror -pedantic binary_tree_print.c 15-binary_tree_is_full.c 15-main.c 0-binary_tree_node.c 2-binary_tree_insert_right.c -o 15-full
+alex@/tmp/binary_trees$ ./15-full
+       .-------(098)--.
+  .--(012)--.       (128)--.
+(010)     (054)          (402)
+Is 98 full: 0
+Is 12 full: 1
+Is 128 full: 0
+alex@/tmp/binary_trees$
+```
+
+
+16. Is perfect mandatory - [16-binary_tree_is_perfect.c](16-binary_tree_is_perfect.c/)
+
+Write a function that checks if a binary tree is perfect
+
+- Prototype: int binary_tree_is_perfect(const binary_tree_t *tree);
+- Where tree is a pointer to the root node of the tree to check
+- If tree is NULL, your function must return 0
+```
+alex@/tmp/binary_trees$ cat 16-main.c
+#include <stdlib.h>
+#include <stdio.h>
+#include "binary_trees.h"
+
+/**
+ * main - Entry point
+ *
+ * Return: Always 0 (Success)
+ */
+int main(void)
+{
+    binary_tree_t *root;
+    int perfect;
+
+    root = binary_tree_node(NULL, 98);
+    root->left = binary_tree_node(root, 12);
+    root->right = binary_tree_node(root, 402);
+    binary_tree_insert_right(root->left, 54);
+    binary_tree_insert_right(root, 128);
+    root->left->left = binary_tree_node(root->left, 10);
+    root->right->left = binary_tree_node(root->right, 10);
+
+    binary_tree_print(root);
+    perfect = binary_tree_is_perfect(root);
+    printf("Perfect: %d\n\n", perfect);
+
+    root->right->right->left = binary_tree_node(root->right->right, 10);
+    binary_tree_print(root);
+    perfect = binary_tree_is_perfect(root);
+    printf("Perfect: %d\n\n", perfect);
+
+    root->right->right->right = binary_tree_node(root->right->right, 10);
+    binary_tree_print(root);
+    perfect = binary_tree_is_perfect(root);
+    printf("Perfect: %d\n", perfect);
+    return (0);
+}
+alex@/tmp/binary_trees$ gcc -Wall -Wextra -Werror -pedantic binary_tree_print.c 16-binary_tree_is_perfect.c 16-main.c 0-binary_tree_node.c 2-binary_tree_insert_right.c -o 16-perfect
+alex@/tmp/binary_trees$ ./16-perfect 
+       .-------(098)-------.
+  .--(012)--.         .--(128)--.
+(010)     (054)     (010)     (402)
+Perfect: 1
+
+       .-------(098)-------.
+  .--(012)--.         .--(128)-------.
+(010)     (054)     (010)       .--(402)
+                              (010)
+Perfect: 0
+
+       .-------(098)-------.
+  .--(012)--.         .--(128)-------.
+(010)     (054)     (010)       .--(402)--.
+                              (010)     (010)
+Perfect: 0
+alex@/tmp/binary_trees$
+```
